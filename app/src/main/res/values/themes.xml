@@ -13,4 +13,14 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Tema para el splashscreen -->
+    <style name="Theme.App.iniciando" parent="Theme.SplashScreen">
+        <!-- Color de fondo -->
+        <item name="windowSplashScreenBackground">@color/teal_200</item>
+        <!-- Icono de nuestro splash -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <!-- Tema que va a seguir cuando termine el splash screen -->
+        <item name="postSplashScreenTheme">@style/Theme.Asteroides</item>
+    </style>
 </resources>
