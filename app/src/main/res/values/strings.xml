@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Asteroides</string>
+    
+    <!--Strings para el menú principal del juego-->
+    <string name="jugar">Jugar</string>
+    <string name="configurar">Configurar</string>
+    <string name="acercaDe">Acerca De</string>
+    <string name="salir">Salir</string>
+    
+    <!--String de la descripcion del acerca de-->
+    <string name="contenido_acercaDe">Esta aplicación esta inspirada en el juego de asteroides de atari, se desarrollo en Android Studio con el lenguaje Java.</string>
 </resources>
