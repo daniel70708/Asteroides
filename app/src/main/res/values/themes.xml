@@ -22,6 +22,19 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <!-- Tema que va a seguir cuando termine el splash screen -->
         <item name="postSplashScreenTheme">@style/Theme.Asteroides</item>
+    </style>
 
+    <style name="tituloPrincipal">
+        <item name="fontFamily">@font/vertor</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:textColor">@color/textoPrimario</item>
+        <item name="android:textSize">14pt</item>
+    </style>
+
+    <style name="botonMenuPrincipal">
+        <item name="fontFamily">@font/vertor</item>
+        <item name="android:textSize">7pt</item>
+        <item name="android:textColor">@color/textoSecundario</item>
+        <item name="backgroundColor">@color/grisClaroPrimario</item>
     </style>
 </resources>
