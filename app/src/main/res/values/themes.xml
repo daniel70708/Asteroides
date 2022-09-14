@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Asteroides" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Asteroides" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/grisPrimario</item>
         <item name="colorPrimaryVariant">@color/grisClaroPrimario</item>
@@ -24,17 +24,37 @@
         <item name="postSplashScreenTheme">@style/Theme.Asteroides</item>
     </style>
 
+
+    <!-- Estilos base para el titulo y los botones -->
     <style name="tituloPrincipal">
         <item name="fontFamily">@font/vertor</item>
         <item name="android:text">@string/app_name</item>
         <item name="android:textColor">@color/textoPrimario</item>
-        <item name="android:textSize">14pt</item>
+        <item name="background">@color/grisClaroPrimario</item>
     </style>
 
     <style name="botonMenuPrincipal">
         <item name="fontFamily">@font/vertor</item>
-        <item name="android:textSize">7pt</item>
-        <item name="android:textColor">@color/textoSecundario</item>
-        <item name="backgroundColor">@color/grisClaroPrimario</item>
+        <item name="android:textColor">@color/textoPrimario</item>
+        <item name="background">@color/grisClaroPrimario</item>
     </style>
+
+    <!--Temas para el titulo y botones del menú principal en orientación vertical-->
+    <style name="tituloPrincipal.vertical">
+        <item name="android:textSize">14pt</item>
+    </style>
+
+    <style name="botonMenuPrincipal.vertical">
+        <item name="android:textSize">7pt</item>
+    </style>
+
+    <!-- Temas para el titulo y botones del menú principal en orientación horizontal-->
+    <style name="tituloPrincipal.horizontal">
+        <item name="android:textSize">16pt</item>
+    </style>
+
+    <style name="botonMenuPrincipal.horizontal">
+        <item name="android:textSize">8pt</item>
+    </style>
+
 </resources>

@@ -7,10 +7,9 @@
     android:background="@color/grisClaroPrimario"
     tools:context=".MainActivity">
 
-
     <TextView
         android:id="@+id/titulo"
-        style="@style/tituloPrincipal.vertical"
+        style="@style/tituloPrincipal.horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,64 +17,77 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19" />
-
-    <Button
-        android:id="@+id/botonIniciar"
-        style="@style/botonMenuPrincipal.vertical"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:text="@string/jugar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titulo"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.128" />
 
     <Button
         android:id="@+id/botonConfigurar"
-        style="@style/botonMenuPrincipal.vertical"
+        style="@style/botonMenuPrincipal.horizontal"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:text="@string/configurar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/botonIniciar"
+        app:layout_constraintTop_toBottomOf="@+id/titulo"
+        app:layout_constraintVertical_bias="0.211" />
+
+    <Button
+        android:id="@+id/botonIniciar"
+        style="@style/botonMenuPrincipal.horizontal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/jugar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonIniciar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/titulo"
+        app:layout_constraintVertical_bias="0.211" />
 
     <Button
         android:id="@+id/botonAcercaDe"
-        style="@style/botonMenuPrincipal.vertical"
+        style="@style/botonMenuPrincipal.horizontal"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/acercaDe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonConfigurar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/botonIniciar"
+        app:layout_constraintVertical_bias="0.097" />
 
     <Button
         android:id="@+id/botonSalir"
-        style="@style/botonMenuPrincipal.vertical"
+        style="@style/botonMenuPrincipal.horizontal"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/salir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonAcercaDe"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/botonAcercaDe"
+        app:layout_constraintTop_toBottomOf="@+id/botonConfigurar"
+        app:layout_constraintVertical_bias="0.101" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="193dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="341dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
