@@ -22,6 +22,11 @@ public class VistaJuego extends View {
     private static final int MAX_VELOCIDAD_NAVE = 20;
     private static final int PASO_GIRO_NAVE = 5;
     private static final float PASO_ACELERACION_NAVE = 0.5f;
+    //Hilo de ejecución
+    /*private  HiloJuego hiloJuego = new HiloJuego();
+    private static int PERIODO_PROCESO = 50;
+    private long ultimoProceso = 0;
+*/
 
 
     public VistaJuego(Context context, @Nullable AttributeSet attrs) {
@@ -30,6 +35,8 @@ public class VistaJuego extends View {
 
         drawableNave = context.getResources().getDrawable(R.drawable.nave);
         nave = new Grafico(this,drawableNave);
+        nave.setAngulo(0);
+        nave.setRotacion(70);
 
         drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide1);
         asteroides = new Vector<Grafico>();
@@ -47,15 +54,23 @@ public class VistaJuego extends View {
     @Override
     protected void onSizeChanged(int ancho, int alto, int ancho_anterior, int alto_anterior) {
         super.onSizeChanged(ancho, alto, ancho_anterior, alto_anterior);
+        int i = 50;
         for (Grafico asteroide:asteroides){
             //do {
-                asteroide.setCordenadaXcentro((int) Math.random() * ancho);
-                asteroide.setCordenadaYcentro((int) Math.random() * alto);
+
+            asteroide.setCordenadaXcentro(100);
+            asteroide.setCordenadaYcentro(i);
+            i = i + 50;
+                //asteroide.setCordenadaXcentro((int) Math.random() * ancho);
+                //asteroide.setCordenadaYcentro((int) Math.random() * alto);
             //}while (asteroide.distancia(nave) < (ancho + alto) / 5);
 
         }
-        //nave.setCordenadaXcentro((int) 250);
-        //nave.setCordenadaYcentro((int) 400);
+
+        nave.setCordenadaXcentro(300);
+        nave.setCordenadaYcentro(200);
+        /*ultimoProceso = System.currentTimeMillis();
+        hiloJuego.run();*/
     }
 
     @Override
@@ -66,4 +81,33 @@ public class VistaJuego extends View {
         }
         nave.dibujarGrafico(canvas);
     }
+/*
+    protected void actualizaFisica(){
+        long ahora = System.currentTimeMillis();
+        if (ultimoProceso + PERIODO_PROCESO > ahora){
+            return;
+        }
+        double retardo = (ahora - ultimoProceso) / PERIODO_PROCESO;
+        ultimoProceso = ahora;
+        nave.setAngulo((int) nave.getAngulo() + giroNave * retardo);
+        double nIncX = nave.getCordenadaXincremento() + aceleracionNave * Math.cos(Math.toRadians(nave.getAngulo())) * retardo;
+        double nIncY = nave.getCordenadaYincremento() + aceleracionNave * Math.sin(Math.toRadians(nave.getAngulo())) * retardo;
+        if (Math.hypot(nIncX,nIncY) <= aceleracionNave){
+            nave.setCordenadaXincremento(nIncX);
+            nave.setCordenadaYincremento(nIncY);
+        }
+        nave.incrementaPosicion(retardo);
+        for (Grafico asteroide: asteroides){
+            asteroide.incrementaPosicion(retardo);
+        }
+    }
+
+    class HiloJuego extends Thread{
+        @Override
+        public void run() {
+            while (true){
+                actualizaFisica();
+            }
+        }
+    }*/
 }

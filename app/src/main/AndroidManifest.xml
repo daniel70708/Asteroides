@@ -13,7 +13,7 @@
             android:name=".Juego"
             android:exported="false"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.Asteroides"
+            android:theme="@style/Theme.FullScreen"
             />
         <activity
             android:name=".MainActivity"
