@@ -32,21 +32,42 @@ public class VistaJuego extends View {
     public VistaJuego(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         Drawable drawableNave, drawableAsteroide,drawableMisil;
-
-        drawableNave = context.getResources().getDrawable(R.drawable.nave);
+        //nave
+        drawableNave = context.getResources().getDrawable(R.drawable.nave2);
         nave = new Grafico(this,drawableNave);
-        nave.setAngulo(0);
-        nave.setRotacion(70);
+        double numeroAleatorio = Math.random();
+        double angulo = numeroAleatorio * 360;
+        double rotacion = numeroAleatorio * 4 / 2;
+        nave.setAngulo((int) angulo);
+        nave.setRotacion((int) rotacion);
 
-        drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide1);
+        //asteroides
         asteroides = new Vector<Grafico>();
         for (int i = 0; i<numeroAsteroides; i++){
-            Grafico asteroide = new Grafico(this, drawableAsteroide);
-            asteroide.setCordenadaYincremento(Math.random() * 4 -2);
-            asteroide.setCordenadaXincremento(Math.random() * 4 - 2);
 
-            asteroide.setAngulo((int) Math.random() * 360);
-            asteroide.setRotacion((int) Math.random() * 8 - 4);
+           switch ((int) Math.round(Math.random() * 3)){
+                case 0:
+                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide2);
+                    break;
+                case 1:
+                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide3);
+                    break;
+                default:
+                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide4);
+                    break;
+            }
+
+            Grafico asteroide = new Grafico(this, drawableAsteroide);
+            double cordenadaX = Math.random() * 4 -2;
+            double cordenadaY = Math.random() * 4 -2;
+            asteroide.setCordenadaXincremento(cordenadaX);
+            asteroide.setCordenadaYincremento(cordenadaY);
+
+            numeroAleatorio = Math.random();
+            angulo = numeroAleatorio * 360;
+            rotacion = numeroAleatorio * 8 -4;
+            asteroide.setAngulo((int) angulo);
+            asteroide.setRotacion((int) rotacion);
             asteroides.add(asteroide);
         }
     }
@@ -54,21 +75,21 @@ public class VistaJuego extends View {
     @Override
     protected void onSizeChanged(int ancho, int alto, int ancho_anterior, int alto_anterior) {
         super.onSizeChanged(ancho, alto, ancho_anterior, alto_anterior);
-        int i = 50;
+        double centroX, centroY, valorAleatorio;
+        valorAleatorio = Math.random();
+
         for (Grafico asteroide:asteroides){
-            //do {
-
-            asteroide.setCordenadaXcentro(100);
-            asteroide.setCordenadaYcentro(i);
-            i = i + 50;
-                //asteroide.setCordenadaXcentro((int) Math.random() * ancho);
-                //asteroide.setCordenadaYcentro((int) Math.random() * alto);
-            //}while (asteroide.distancia(nave) < (ancho + alto) / 5);
-
+            centroX = valorAleatorio * ancho;
+            centroY = valorAleatorio * alto;
+            asteroide.setCordenadaXcentro((int) centroX);
+            asteroide.setCordenadaYcentro((int) centroY);
+            valorAleatorio = Math.random();
         }
 
-        nave.setCordenadaXcentro(300);
-        nave.setCordenadaYcentro(200);
+        centroX = valorAleatorio * ancho;
+        centroY = valorAleatorio * alto;
+        nave.setCordenadaXcentro((int) centroX);
+        nave.setCordenadaYcentro((int) centroY);
         /*ultimoProceso = System.currentTimeMillis();
         hiloJuego.run();*/
     }
