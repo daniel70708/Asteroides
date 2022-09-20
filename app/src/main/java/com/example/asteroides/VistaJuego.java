@@ -25,9 +25,9 @@ public class VistaJuego extends View {
     private static final int PASO_GIRO_NAVE = 5;
     private static final float PASO_ACELERACION_NAVE = 0.5f;
     //Hilo de ejecución
-    /*private  HiloJuego hiloJuego = new HiloJuego();
+    private  HiloJuego thread = new HiloJuego();
     private static int PERIODO_PROCESO = 50;
-    private long ultimoProceso = 0;*/
+    private long ultimoProceso = 0;
 
 
 
@@ -93,10 +93,11 @@ public class VistaJuego extends View {
             //}while ( asteroide.distancia(nave) < (ancho + alto) / 5);
 
         }
-       /* ultimoProceso = System.currentTimeMillis();
-        hiloJuego.run();*/
+       ultimoProceso = System.currentTimeMillis();
+       thread.start();
     }
 
+    synchronized
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -106,7 +107,7 @@ public class VistaJuego extends View {
         nave.dibujarGrafico(canvas);
 
     }
-/*
+
     protected void actualizaFisica(){
         long ahora = System.currentTimeMillis();
         if (ultimoProceso + PERIODO_PROCESO > ahora){
@@ -117,7 +118,7 @@ public class VistaJuego extends View {
         nave.setAngulo((int) nave.getAngulo() + giroNave * retardo);
         double nIncX = nave.getCordenadaXincremento() + aceleracionNave * Math.cos(Math.toRadians(nave.getAngulo())) * retardo;
         double nIncY = nave.getCordenadaYincremento() + aceleracionNave * Math.sin(Math.toRadians(nave.getAngulo())) * retardo;
-        if (Math.hypot(nIncX,nIncY) <= aceleracionNave){
+        if (Math.hypot(nIncX,nIncY) <= MAX_VELOCIDAD_NAVE){
             nave.setCordenadaXincremento(nIncX);
             nave.setCordenadaYincremento(nIncY);
         }
@@ -134,6 +135,6 @@ public class VistaJuego extends View {
                 actualizaFisica();
             }
         }
-    }*/
+    }
 
 }
