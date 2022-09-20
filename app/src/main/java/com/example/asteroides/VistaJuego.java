@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
@@ -25,23 +27,20 @@ public class VistaJuego extends View {
     //Hilo de ejecución
     /*private  HiloJuego hiloJuego = new HiloJuego();
     private static int PERIODO_PROCESO = 50;
-    private long ultimoProceso = 0;
-*/
+    private long ultimoProceso = 0;*/
+
 
 
     public VistaJuego(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        double numeroAleatorio, angulo, rotacion;
         Drawable drawableNave, drawableAsteroide,drawableMisil;
-        //nave
+
+        //Creación de la nave sin angulo ni rotación
         drawableNave = context.getResources().getDrawable(R.drawable.nave2);
         nave = new Grafico(this,drawableNave);
-        double numeroAleatorio = Math.random();
-        double angulo = numeroAleatorio * 360;
-        double rotacion = numeroAleatorio * 4 / 2;
-        nave.setAngulo((int) angulo);
-        nave.setRotacion((int) rotacion);
 
-        //asteroides
+        //Creación de asteroides
         asteroides = new Vector<Grafico>();
         for (int i = 0; i<numeroAsteroides; i++){
 
@@ -75,22 +74,26 @@ public class VistaJuego extends View {
     @Override
     protected void onSizeChanged(int ancho, int alto, int ancho_anterior, int alto_anterior) {
         super.onSizeChanged(ancho, alto, ancho_anterior, alto_anterior);
+
         double centroX, centroY, valorAleatorio;
-        valorAleatorio = Math.random();
-
-        for (Grafico asteroide:asteroides){
-            centroX = valorAleatorio * ancho;
-            centroY = valorAleatorio * alto;
-            asteroide.setCordenadaXcentro((int) centroX);
-            asteroide.setCordenadaYcentro((int) centroY);
-            valorAleatorio = Math.random();
-        }
-
-        centroX = valorAleatorio * ancho;
-        centroY = valorAleatorio * alto;
+        //Colocamos la nave en el centro de la pantalla
+        centroX = ancho / 2; //Calculamos en centro de manera horizontal (ancho)
+        centroY = alto / 2; //Calculamos en centro de manera vertical (alto)
         nave.setCordenadaXcentro((int) centroX);
         nave.setCordenadaYcentro((int) centroY);
-        /*ultimoProceso = System.currentTimeMillis();
+
+        //Colocación de los asteroides en cordenas (x,y) de manera aleatoria
+        for (Grafico asteroide:asteroides){
+            valorAleatorio = Math.random();
+            centroX = valorAleatorio * ancho;
+            centroY = valorAleatorio * alto;
+           // do{
+                asteroide.setCordenadaXcentro((int) centroX);
+                asteroide.setCordenadaYcentro((int) centroY);
+            //}while ( asteroide.distancia(nave) < (ancho + alto) / 5);
+
+        }
+       /* ultimoProceso = System.currentTimeMillis();
         hiloJuego.run();*/
     }
 
@@ -101,6 +104,7 @@ public class VistaJuego extends View {
             asteroide.dibujarGrafico(canvas);
         }
         nave.dibujarGrafico(canvas);
+
     }
 /*
     protected void actualizaFisica(){
@@ -131,4 +135,5 @@ public class VistaJuego extends View {
             }
         }
     }*/
+
 }
