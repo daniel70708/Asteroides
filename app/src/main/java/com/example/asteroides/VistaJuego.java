@@ -14,9 +14,9 @@ import java.util.Vector;
 
 public class VistaJuego extends View {
     //Asteroides
-    private Vector<Grafico> asteroides;
-    private int numeroAsteroides = 5;
-    private int numeroFragmentos = 3;
+    private Vector<Grafico> asteroides; //Vector en donde se van almacenar los asteroides con sus respectivas características
+    private int numeroAsteroides = 5;  //Número de asteroides que se van a mostrar en el juego
+    private int numeroFragmentos = 3;  //Número de fragmentos que se va a dividir cuando sea destruido
     //Nave
     private Grafico nave;
     private int giroNave;
@@ -30,20 +30,22 @@ public class VistaJuego extends View {
     private long ultimoProceso = 0;
 
 
-
+    /** */
     public VistaJuego(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
+        Drawable drawableNave, drawableAsteroide,drawableMisil; //Definición de imagenes que vamos a mostrar
         double numeroAleatorio, angulo, rotacion;
-        Drawable drawableNave, drawableAsteroide,drawableMisil;
 
         //Creación de la nave sin angulo ni rotación
         drawableNave = context.getResources().getDrawable(R.drawable.nave2);
         nave = new Grafico(this,drawableNave);
 
         //Creación de asteroides
-        asteroides = new Vector<Grafico>();
+        asteroides = new Vector<Grafico>(); //Inicializando el vector que contendrá los 5 asteroides
+        //Creamos un ciclo en donde se crearán los 5 asteroides
         for (int i = 0; i<numeroAsteroides; i++){
-
+            //Generamos un número al azar para determinar que imagen del asteroide (de un total de 3 posibles)
            switch ((int) Math.round(Math.random() * 3)){
                 case 0:
                     drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide2);
@@ -56,47 +58,69 @@ public class VistaJuego extends View {
                     break;
             }
 
-            Grafico asteroide = new Grafico(this, drawableAsteroide);
-            double cordenadaX = Math.random() * 4 -2;
-            double cordenadaY = Math.random() * 4 -2;
-            asteroide.setCordenadaXincremento(cordenadaX);
+            Grafico asteroide = new Grafico(this, drawableAsteroide); // Llamamos a la función grafico pasando como parámetro la vista y la imagen a representar
+            //Generamos cordenada (x,y) para el incremento de la posición (el movimiento del asteroide)
+            double cordenadaX = Math.random() * 4 - 2;
+            double cordenadaY = Math.random() * 4 - 2;
+            asteroide.setCordenadaXincremento(cordenadaX); //Asignamos (x,y) a cordenada incremento
             asteroide.setCordenadaYincremento(cordenadaY);
-
+            //Generamos un número al azar para determinar el angulo y rotación al asteroide
             numeroAleatorio = Math.random();
             angulo = numeroAleatorio * 360;
             rotacion = numeroAleatorio * 8 -4;
-            asteroide.setAngulo((int) angulo);
+            asteroide.setAngulo((int) angulo); //Asignamos el ángulo y la rotación
             asteroide.setRotacion((int) rotacion);
-            asteroides.add(asteroide);
+            asteroides.add(asteroide); //Agregamos el asteroide al vector asteroides
         }
     }
 
+    /** */
     @Override
     protected void onSizeChanged(int ancho, int alto, int ancho_anterior, int alto_anterior) {
         super.onSizeChanged(ancho, alto, ancho_anterior, alto_anterior);
 
         double centroX, centroY, valorAleatorio;
+
         //Colocamos la nave en el centro de la pantalla
-        centroX = ancho / 2; //Calculamos en centro de manera horizontal (ancho)
-        centroY = alto / 2; //Calculamos en centro de manera vertical (alto)
-        nave.setCordenadaXcentro((int) centroX);
+        centroX = ancho / 2; //Calculamos en centro de la pantalla (ancho)
+        centroY = alto / 2; //Calculamos en centro de la pantalla (alto)
+        nave.setCordenadaXcentro((int) centroX); //Asigamos las cordenadas (x,y) de donde se va a ubicar
         nave.setCordenadaYcentro((int) centroY);
 
         //Colocación de los asteroides en cordenas (x,y) de manera aleatoria
         for (Grafico asteroide:asteroides){
-            valorAleatorio = Math.random();
-            centroX = valorAleatorio * ancho;
-            centroY = valorAleatorio * alto;
-           // do{
-                asteroide.setCordenadaXcentro((int) centroX);
-                asteroide.setCordenadaYcentro((int) centroY);
-            //}while ( asteroide.distancia(nave) < (ancho + alto) / 5);
+            centroX = 0;
+            centroY = 0;
+
+           valorAleatorio = (int) (Math.random() * ((10 - 1) + 1) + 1 );
+           if (valorAleatorio <= 5){
+               if(valorAleatorio <= 3){
+                   centroX = 0;
+                   centroY =  Math.random() * alto;
+               }else {
+                   centroX = ancho;
+                   centroY = Math.random() * alto;
+               }
+           }else{
+                if (valorAleatorio <= 8){
+                    centroX = Math.random() * ancho;
+                    centroY = 0;
+                }else{
+                    centroX = Math.random() * ancho;
+                    centroY = alto;
+                }
+           }
+
+           asteroide.setCordenadaXcentro((int) centroX);
+           asteroide.setCordenadaYcentro((int) centroY);
 
         }
-       ultimoProceso = System.currentTimeMillis();
-       thread.start();
+
+        ultimoProceso = System.currentTimeMillis();
+        thread.start();
     }
 
+    /** */
     synchronized
     @Override
     protected void onDraw(Canvas canvas) {
@@ -108,6 +132,8 @@ public class VistaJuego extends View {
 
     }
 
+    /** */
+    synchronized
     protected void actualizaFisica(){
         long ahora = System.currentTimeMillis();
         if (ultimoProceso + PERIODO_PROCESO > ahora){
@@ -128,6 +154,7 @@ public class VistaJuego extends View {
         }
     }
 
+    /** */
     class HiloJuego extends Thread{
         @Override
         public void run() {
