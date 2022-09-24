@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -28,6 +29,10 @@ public class VistaJuego extends View {
     private  HiloJuego thread = new HiloJuego();
     private static int PERIODO_PROCESO = 50;
     private long ultimoProceso = 0;
+    //Movimiento nave
+    private  float mX = 0, mY = 0;
+    private boolean disparo = false;
+
 
 
     /** */
@@ -154,6 +159,39 @@ public class VistaJuego extends View {
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        float x = event.getX();
+        float y = event.getY();
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                disparo = true;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dx = Math.abs(x - mX);
+                float dy = Math.abs(y - mY);
+                if (dy < 6 && dx > 6){
+                    giroNave = Math.round((x - mX) / 2);
+                    disparo = false;
+                }else  if (dx < 6 && dy > 6){
+                    aceleracionNave = Math.round( (mY - y) / 25);
+                    disparo = false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                giroNave = 0;
+                aceleracionNave = 0;
+                /*if (disparo){
+                    activaMisil();
+                }*/
+                break;
+        }
+        mX = x;
+        mY = y;
+        return true;
+    }
+
     /** */
     class HiloJuego extends Thread{
         @Override
@@ -163,5 +201,6 @@ public class VistaJuego extends View {
             }
         }
     }
+
 
 }
