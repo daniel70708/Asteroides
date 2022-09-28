@@ -3,14 +3,16 @@ package com.example.asteroides;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
+import java.io.Console;
 import java.util.Vector;
 
 public class VistaJuego extends View {
@@ -85,6 +87,8 @@ public class VistaJuego extends View {
         super.onSizeChanged(ancho, alto, ancho_anterior, alto_anterior);
 
         double centroX, centroY, valorAleatorio;
+        boolean banCaso1 = false, banCaso2 = false, banCaso3 = false, banCaso4 = false;
+        double centroYanteriorCaso1 = 0, centroYanteriorCaso2 = 0, centroXanteriorCaso1 = 0, centroXanteriorCaso2 = 0;
 
         //Colocamos la nave en el centro de la pantalla
         centroX = ancho / 2; //Calculamos en centro de la pantalla (ancho)
@@ -97,32 +101,67 @@ public class VistaJuego extends View {
             centroX = 0;
             centroY = 0;
 
-           valorAleatorio = (int) (Math.random() * ((10 - 1) + 1) + 1 );
-           if (valorAleatorio <= 5){
-               if(valorAleatorio <= 3){
-                   centroX = 0;
-                   centroY =  Math.random() * alto;
-               }else {
-                   centroX = ancho;
-                   centroY = Math.random() * alto;
-               }
-           }else{
-                if (valorAleatorio <= 8){
+            valorAleatorio = (Math.random() * 3);
+            switch ((int) valorAleatorio){
+                case 1:
+                    centroX = -200;
+                    centroY =  Math.random() * alto;
+                    if (banCaso1 == true){
+                        centroY = verificaPosicion(centroY, centroYanteriorCaso1);
+                    }
+                    banCaso1 = true;
+                    centroYanteriorCaso1 = centroY;
+                    break;
+                case 2:
+                    centroX = ancho + 200;
+                    centroY = Math.random() * alto;
+                    if (banCaso2 == true){
+                        centroY = verificaPosicion(centroY, centroYanteriorCaso2);
+                    }
+                    banCaso2 = true;
+                    centroYanteriorCaso2 = centroY;
+                    break;
+                case 3:
                     centroX = Math.random() * ancho;
-                    centroY = 0;
-                }else{
+                    centroY = -200;
+                    if (banCaso3 == true){
+                        centroX = verificaPosicion(centroX, centroXanteriorCaso1);
+                    }
+                    banCaso3 = true;
+                    centroXanteriorCaso1 = centroX;
+                    break;
+                default:
                     centroX = Math.random() * ancho;
-                    centroY = alto;
-                }
-           }
+                    centroY = alto + 200;
+                    if (banCaso4 == true){
+                        centroX = verificaPosicion(centroX, centroXanteriorCaso2);
+                    }
+                    banCaso4 = true;
+                    centroXanteriorCaso2 = centroX;
+                    break;
+            }
 
            asteroide.setCordenadaXcentro((int) centroX);
            asteroide.setCordenadaYcentro((int) centroY);
-
         }
 
         ultimoProceso = System.currentTimeMillis();
         thread.start();
+    }
+
+    protected double verificaPosicion(double centro, double centroAnterior){
+        double valor;
+        if (centro >= centroAnterior){
+            valor = centro - centroAnterior;
+        }else{
+            valor = centroAnterior - centro;
+        }
+
+        if (valor <= 100){
+            centro  = centro + 100;
+        }
+        return centro;
+
     }
 
     /** */
@@ -136,6 +175,8 @@ public class VistaJuego extends View {
         nave.dibujarGrafico(canvas);
 
     }
+
+
 
     /** */
     synchronized
@@ -154,8 +195,19 @@ public class VistaJuego extends View {
             nave.setCordenadaYincremento(nIncY);
         }
         nave.incrementaPosicion(retardo);
+
         for (Grafico asteroide: asteroides){
             asteroide.incrementaPosicion(retardo);
+        }
+    }
+
+    /** */
+    class HiloJuego extends Thread{
+        @Override
+        public void run() {
+            while (true){
+                actualizaFisica();
+            }
         }
     }
 
@@ -192,15 +244,7 @@ public class VistaJuego extends View {
         return true;
     }
 
-    /** */
-    class HiloJuego extends Thread{
-        @Override
-        public void run() {
-            while (true){
-                actualizaFisica();
-            }
-        }
-    }
+
 
 
 }
