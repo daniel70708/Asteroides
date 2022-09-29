@@ -16,6 +16,7 @@ import java.io.Console;
 import java.util.Vector;
 
 public class VistaJuego extends View {
+    private final Joystick joystick;
     //Asteroides
     private Vector<Grafico> asteroides; //Vector en donde se van almacenar los asteroides con sus respectivas características
     private int numeroAsteroides = 5;  //Número de asteroides que se van a mostrar en el juego
@@ -43,6 +44,8 @@ public class VistaJuego extends View {
 
         Drawable drawableNave, drawableAsteroide,drawableMisil; //Definición de imagenes que vamos a mostrar
         double numeroAleatorio, angulo, rotacion;
+
+        joystick = new Joystick(250,325,80,45);
 
         //Creación de la nave sin angulo ni rotación
         drawableNave = context.getResources().getDrawable(R.drawable.nave2);
@@ -173,6 +176,8 @@ public class VistaJuego extends View {
             asteroide.dibujarGrafico(canvas);
         }
         nave.dibujarGrafico(canvas);
+        joystick.draw(canvas);
+
 
     }
 
