@@ -5,13 +5,13 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 public class Grafico {
-    private Drawable imagen; //Imagen que vamos a mostrar en el juego
-    private int cordenadaXcentro,cordenadaYcentro; //Cordenadas (x,y) del centro de nuestra imagen
-    private int alto,ancho; //Alto y ancho de la imagen (drawable)
-    private double cordenadaXincremento,cordenadaYincremento;// Modifica la posicion (x,y) según la velocidad de translación
-    private double angulo, rotacion; //Angulo y rotación de nuestra imagen en el juego
+    private Drawable imagen; //Drawable que vamos a mostrar (nave, asteroide ó disparo)
+    private int cordenadaXcentro,cordenadaYcentro; //Cordenadas (x,y) del centro de nuestro drawable
+    private int alto,ancho; //Alto y ancho del drawable
+    private double incrementoX, incrementoY;// Incremento de velocidad en eje de X y de Y
+    private double angulo, velocidadRotacion; //Angulo y velocidad de rotación del drawable
     private int radioColicion; //Radio que nos indica cuando un objeto se cruza con otro y esto generará una colicion
-    private int cordenadaXanterior,cordenadaYanterior; //Cordenanda (x,y) anterior de nuestro gráfico, esta cordenada se usa cuando la imagen se mueve
+    private int cordenadaXanterior,cordenadaYanterior; //Cordenanda (x,y) anterior del drawable
     private int radioInval; //Incrementamos el radio de la imagen, cuando esta fue rotada
     private View view;
 
@@ -24,8 +24,8 @@ public class Grafico {
         this.imagen = imagen;
         ancho = imagen.getIntrinsicWidth(); //obtenemos en ancho de la imagen
         alto = imagen.getIntrinsicHeight();//obtenemos el alto de la imagen
-        radioColicion = (alto+ancho)/2; //calculamos en radio de colicion
-        radioInval = (int) Math.hypot(ancho/2,alto/2);
+        radioColicion = (alto + ancho) / 2; //calculamos en radio de colicion
+        radioInval = (int) Math.hypot(ancho / 2 , alto / 2);
     }
 
     /** Dibujamos el drawable en la posición (x,y) y gurdamos los cambios para posteriormente rotarla de acuerdo
@@ -50,19 +50,22 @@ public class Grafico {
      * por lo que vamos a tomar el ancho y alto de nuestra vista y si la coordenada (x,y) es mayor que la vista la vamos a
      * colocarla  en (0,0) */
     public void incrementaPosicion(double factor){
-        cordenadaXcentro += cordenadaXincremento * factor;
-        cordenadaYcentro += cordenadaYincremento * factor;
-        angulo += rotacion * factor;
-        if(cordenadaYcentro < 0) {
+        cordenadaXcentro += incrementoX * factor;
+        cordenadaYcentro += incrementoY * factor;
+        angulo += velocidadRotacion * factor;
+
+        if(cordenadaXcentro < 0) {
             cordenadaXcentro = view.getWidth();
         }else if(cordenadaXcentro > view.getWidth()){
             cordenadaXcentro = 0;
         }
+
         if (cordenadaYcentro < 0){
             cordenadaYcentro = view.getHeight();
         }else if (cordenadaYcentro > view.getHeight()){
             cordenadaYcentro = 0;
         }
+
     }
     /** */
     public double distancia(Grafico grafico){
@@ -114,20 +117,20 @@ public class Grafico {
         this.ancho = ancho;
     }
 
-    public double getCordenadaXincremento() {
-        return cordenadaXincremento;
+    public double getIncrementoX() {
+        return incrementoX;
     }
 
-    public void setCordenadaXincremento(double cordenadaXincremento) {
-        this.cordenadaXincremento = cordenadaXincremento;
+    public void setIncrementoX(double incrementoX) {
+        this.incrementoX = incrementoX;
     }
 
-    public double getCordenadaYincremento() {
-        return cordenadaYincremento;
+    public double getIncrementoY() {
+        return incrementoY;
     }
 
-    public void setCordenadaYincremento(double cordenadaYincremento) {
-        this.cordenadaYincremento = cordenadaYincremento;
+    public void setIncrementoY(double incrementoY) {
+        this.incrementoY = incrementoY;
     }
 
     public double getAngulo() {
@@ -138,12 +141,12 @@ public class Grafico {
         this.angulo = angulo;
     }
 
-    public double getRotacion() {
-        return rotacion;
+    public double getVelocidadRotacion() {
+        return velocidadRotacion;
     }
 
-    public void setRotacion(double rotacion) {
-        this.rotacion = rotacion;
+    public void setVelocidadRotacion(double velocidadRotacion) {
+        this.velocidadRotacion = velocidadRotacion;
     }
 
     public int getRadioColicion() {
@@ -185,4 +188,6 @@ public class Grafico {
     public void setView(View view) {
         this.view = view;
     }
+
+
 }

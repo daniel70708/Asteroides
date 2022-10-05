@@ -73,14 +73,14 @@ public class VistaJuego extends View {
             //Generamos cordenada (x,y) para el incremento de la posición (el movimiento del asteroide)
             double cordenadaX = Math.random() * 4 - 2;
             double cordenadaY = Math.random() * 4 - 2;
-            asteroide.setCordenadaXincremento(cordenadaX); //Asignamos (x,y) a cordenada incremento
-            asteroide.setCordenadaYincremento(cordenadaY);
+            asteroide.setIncrementoX(cordenadaX); //Asignamos (x,y) a cordenada incremento
+            asteroide.setIncrementoY(cordenadaY);
             //Generamos un número al azar para determinar el angulo y rotación al asteroide
             numeroAleatorio = Math.random();
             angulo = numeroAleatorio * 360;
             rotacion = numeroAleatorio * 8 -4;
             asteroide.setAngulo((int) angulo); //Asignamos el ángulo y la rotación
-            asteroide.setRotacion((int) rotacion);
+            asteroide.setVelocidadRotacion((int) rotacion);
             asteroides.add(asteroide); //Agregamos el asteroide al vector asteroides
         }
     }
@@ -206,8 +206,8 @@ public class VistaJuego extends View {
 
         double velocidadX = joystick.getActuadorX() * MAX_VELOCIDAD_NAVE;
         double velocidadY = joystick.getActuadorY() * MAX_VELOCIDAD_NAVE;
-        nave.setCordenadaXincremento(velocidadX);
-        nave.setCordenadaYincremento(velocidadY);
+        nave.setIncrementoX(velocidadX);
+        nave.setIncrementoY(velocidadY);
         nave.incrementaPosicion(retardo);
 
         for (Grafico asteroide: asteroides){
