@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -17,6 +18,7 @@ import java.util.Vector;
 
 public class VistaJuego extends View {
     private final Joystick joystick;
+    private int altoPantalla, anchoPantalla, radioExterior, radioInterior;
     //Asteroides
     private Vector<Grafico> asteroides; //Vector en donde se van almacenar los asteroides con sus respectivas características
     private int numeroAsteroides = 5;  //Número de asteroides que se van a mostrar en el juego
@@ -36,8 +38,6 @@ public class VistaJuego extends View {
     private  float mX = 0, mY = 0;
     private boolean disparo = false;
 
-
-
     /** */
     public VistaJuego(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -45,7 +45,8 @@ public class VistaJuego extends View {
         Drawable drawableNave, drawableAsteroide,drawableMisil; //Definición de imagenes que vamos a mostrar
         double numeroAleatorio, angulo, rotacion;
 
-        joystick = new Joystick(250,325,80,45);
+        sizePantalla();
+        joystick = new Joystick(anchoPantalla,altoPantalla,radioExterior,radioInterior);
 
         //Creación de la nave sin angulo ni rotación
         drawableNave = context.getResources().getDrawable(R.drawable.nave2);
@@ -152,6 +153,18 @@ public class VistaJuego extends View {
         thread.start();
     }
 
+    /** */
+    synchronized
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        for (Grafico asteroide:asteroides){
+            asteroide.dibujarGrafico(canvas);
+        }
+        nave.dibujarGrafico(canvas);
+        joystick.draw(canvas);
+    }
+
     protected double verificaPosicion(double centro, double centroAnterior){
         double valor;
         if (centro >= centroAnterior){
@@ -164,46 +177,43 @@ public class VistaJuego extends View {
             centro  = centro + 100;
         }
         return centro;
-
     }
 
-    /** */
-    synchronized
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        for (Grafico asteroide:asteroides){
-            asteroide.dibujarGrafico(canvas);
-        }
-        nave.dibujarGrafico(canvas);
-        joystick.draw(canvas);
-
-
+    protected void sizePantalla(){
+        altoPantalla = getResources().getDisplayMetrics().heightPixels;
+        anchoPantalla = getResources().getDisplayMetrics().widthPixels;
+        radioExterior = anchoPantalla / 12;
+        radioInterior = (radioExterior / 2) + 1;
+        int x = (altoPantalla / 10) * 3;
+        altoPantalla = altoPantalla - x;
+        anchoPantalla = (anchoPantalla / 10) * 2;
     }
-
-
 
     /** */
     synchronized
     protected void actualizaFisica(){
+
+        joystick.update();
+
         long ahora = System.currentTimeMillis();
         if (ultimoProceso + PERIODO_PROCESO > ahora){
             return;
         }
+
         double retardo = (ahora - ultimoProceso) / PERIODO_PROCESO;
         ultimoProceso = ahora;
         nave.setAngulo((int) nave.getAngulo() + giroNave * retardo);
-        double nIncX = nave.getCordenadaXincremento() + aceleracionNave * Math.cos(Math.toRadians(nave.getAngulo())) * retardo;
-        double nIncY = nave.getCordenadaYincremento() + aceleracionNave * Math.sin(Math.toRadians(nave.getAngulo())) * retardo;
-        if (Math.hypot(nIncX,nIncY) <= MAX_VELOCIDAD_NAVE){
-            nave.setCordenadaXincremento(nIncX);
-            nave.setCordenadaYincremento(nIncY);
-        }
+
+        double velocidadX = joystick.getActuadorX() * MAX_VELOCIDAD_NAVE;
+        double velocidadY = joystick.getActuadorY() * MAX_VELOCIDAD_NAVE;
+        nave.setCordenadaXincremento(velocidadX);
+        nave.setCordenadaYincremento(velocidadY);
         nave.incrementaPosicion(retardo);
 
         for (Grafico asteroide: asteroides){
             asteroide.incrementaPosicion(retardo);
         }
+
     }
 
     /** */
@@ -221,35 +231,32 @@ public class VistaJuego extends View {
         super.onTouchEvent(event);
         float x = event.getX();
         float y = event.getY();
+
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                disparo = true;
+                if (joystick.esPresionado((double) event.getX(), (double) event.getY())){
+                    joystick.setPresionado(true);
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
+
                 float dx = Math.abs(x - mX);
                 float dy = Math.abs(y - mY);
-                if (dy < 6 && dx > 6){
+                if(joystick.getPresionado()) {
+                    joystick.setActuador((double) event.getX(), (double) event.getY());
+                    giroNave = 0;
+                }else if(dy < 6 && dx > 6){
                     giroNave = Math.round((x - mX) / 2);
-                    disparo = false;
-                }else  if (dx < 6 && dy > 6){
-                    aceleracionNave = Math.round( (mY - y) / 25);
-                    disparo = false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 giroNave = 0;
-                aceleracionNave = 0;
-                /*if (disparo){
-                    activaMisil();
-                }*/
+                joystick.setPresionado(false);
+                joystick.reiniciarActuador();
                 break;
         }
         mX = x;
         mY = y;
         return true;
     }
-
-
-
-
 }
