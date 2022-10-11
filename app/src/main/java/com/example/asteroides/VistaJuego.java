@@ -49,7 +49,7 @@ public class VistaJuego extends View {
         joystick = new Joystick(anchoPantalla,altoPantalla,radioExterior,radioInterior);
 
         //Creación de la nave sin angulo ni rotación
-        drawableNave = context.getResources().getDrawable(R.drawable.nave2);
+        drawableNave = context.getResources().getDrawable(R.drawable.nave);
         nave = new Grafico(this,drawableNave);
 
         //Creación de asteroides
@@ -59,13 +59,13 @@ public class VistaJuego extends View {
             //Generamos un número al azar para determinar que imagen del asteroide (de un total de 3 posibles)
            switch ((int) Math.round(Math.random() * 3)){
                 case 0:
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide2);
+                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide1);
                     break;
                 case 1:
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide3);
+                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide2);
                     break;
                 default:
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide4);
+                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide3);
                     break;
             }
 

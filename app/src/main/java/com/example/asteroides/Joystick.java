@@ -13,7 +13,7 @@ private Context context;
     private int radioCirculoExterior, radioCirculoInterior;
     private int cordenadaXcirculoExterior, cordenadaYcirculoExterior;
     private int cordenadaXcirculoInterior, cordenadaYcirculoInterior;
-    private Paint circuloExteriorPaint, circuloInteriorPaint;
+    private Paint circuloExteriorPaint, circuloInteriorPaint,circuloBotonPaint;
     private double distanciaJoystick;
     private boolean presionado;
     private double actuadorX,actuadorY;
@@ -38,12 +38,18 @@ private Context context;
         circuloInteriorPaint = new Paint();
         circuloInteriorPaint.setColor(blancoTransparente);
         circuloInteriorPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+/*
+        circuloBotonPaint = new Paint();
+        circuloBotonPaint.setColor(blancoPocaTrasparencia);
+        circuloBotonPaint.setStrokeWidth(2);
+        circuloBotonPaint.setStyle(Paint.Style.STROKE);*/
 
     }
 
     public void draw(Canvas canvas) {
         canvas.drawCircle(cordenadaXcirculoExterior, cordenadaYcirculoExterior, radioCirculoExterior, circuloExteriorPaint);
         canvas.drawCircle(cordenadaXcirculoInterior, cordenadaYcirculoInterior, radioCirculoInterior, circuloInteriorPaint);
+
     }
 
     public void update(){
