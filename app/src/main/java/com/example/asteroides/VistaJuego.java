@@ -18,7 +18,7 @@ import java.util.Vector;
 
 public class VistaJuego extends View {
     private final Joystick joystick;
-    private int altoPantalla, anchoPantalla, radioExterior, radioInterior;
+    private Posicionamiento posicionamiento;
     //Asteroides
     private Vector<Grafico> asteroides; //Vector en donde se van almacenar los asteroides con sus respectivas características
     private int numeroAsteroides = 5;  //Número de asteroides que se van a mostrar en el juego
@@ -30,6 +30,11 @@ public class VistaJuego extends View {
     private static final int MAX_VELOCIDAD_NAVE = 20;
     private static final int PASO_GIRO_NAVE = 5;
     private static final float PASO_ACELERACION_NAVE = 0.5f;
+    //Misil
+    private Grafico misil;
+    private static int PASO_VELOCIDAD_MISIL = 12;
+    private boolean misilActivo = false;
+    private int tiempoMisil;
     //Hilo de ejecución
     private  HiloJuego thread = new HiloJuego();
     private static int PERIODO_PROCESO = 50;
@@ -45,12 +50,16 @@ public class VistaJuego extends View {
         Drawable drawableNave, drawableAsteroide,drawableMisil; //Definición de imagenes que vamos a mostrar
         double numeroAleatorio, angulo, rotacion;
 
-        sizePantalla();
-        joystick = new Joystick(anchoPantalla,altoPantalla,radioExterior,radioInterior);
+        posicionamiento = new Posicionamiento(this);
+
+        joystick = new Joystick(posicionamiento.getPosicionXjoystick(),posicionamiento.getPosicionYjoystick(),posicionamiento.getRadioExterior(),posicionamiento.getRadioInterior());
 
         //Creación de la nave sin angulo ni rotación
         drawableNave = context.getResources().getDrawable(R.drawable.nave);
         nave = new Grafico(this,drawableNave);
+
+        drawableMisil = context.getResources().getDrawable(R.drawable.disparo);
+        misil = new Grafico(this, drawableMisil);
 
         //Creación de asteroides
         asteroides = new Vector<Grafico>(); //Inicializando el vector que contendrá los 5 asteroides
@@ -99,6 +108,7 @@ public class VistaJuego extends View {
         centroY = alto / 2; //Calculamos en centro de la pantalla (alto)
         nave.setCordenadaXcentro((int) centroX); //Asigamos las cordenadas (x,y) de donde se va a ubicar
         nave.setCordenadaYcentro((int) centroY);
+
 
         //Colocación de los asteroides en cordenas (x,y) de manera aleatoria
         for (Grafico asteroide:asteroides){
@@ -163,6 +173,9 @@ public class VistaJuego extends View {
         }
         nave.dibujarGrafico(canvas);
         joystick.draw(canvas);
+        if (misilActivo){
+            misil.dibujarGrafico(canvas);
+        }
     }
 
     protected double verificaPosicion(double centro, double centroAnterior){
@@ -177,16 +190,6 @@ public class VistaJuego extends View {
             centro  = centro + 100;
         }
         return centro;
-    }
-
-    protected void sizePantalla(){
-        altoPantalla = getResources().getDisplayMetrics().heightPixels;
-        anchoPantalla = getResources().getDisplayMetrics().widthPixels;
-        radioExterior = anchoPantalla / 12;
-        radioInterior = (radioExterior / 2) + 1;
-        int x = (altoPantalla / 10) * 3;
-        altoPantalla = altoPantalla - x;
-        anchoPantalla = (anchoPantalla / 10) * 2;
     }
 
     /** */
@@ -214,6 +217,26 @@ public class VistaJuego extends View {
             asteroide.incrementaPosicion(retardo);
         }
 
+        if (misilActivo){
+            misil.incrementaPosicion(retardo);
+            tiempoMisil -= retardo;
+            if(tiempoMisil < 0 ){
+                misilActivo = false;
+            }else {
+                for (int i = 0; i < asteroides.size(); i++){
+                    if (misil.verificarColision(asteroides.elementAt(i))){
+                        destruyeAsteroide(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void destruyeAsteroide(int i) {
+        asteroides.remove(i);
+        misilActivo = false;
     }
 
     /** */
@@ -236,15 +259,19 @@ public class VistaJuego extends View {
             case MotionEvent.ACTION_DOWN:
                 if (joystick.esPresionado((double) event.getX(), (double) event.getY())){
                     joystick.setPresionado(true);
+                }else{
+                    disparo = true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+                disparo = false;
 
                 float dx = Math.abs(x - mX);
                 float dy = Math.abs(y - mY);
                 if(joystick.getPresionado()) {
                     joystick.setActuador((double) event.getX(), (double) event.getY());
                     giroNave = 0;
+
                 }else if(dy < 6 && dx > 6){
                     giroNave = Math.round((x - mX) / 2);
                 }
@@ -253,10 +280,23 @@ public class VistaJuego extends View {
                 giroNave = 0;
                 joystick.setPresionado(false);
                 joystick.reiniciarActuador();
+                if (disparo){
+                    activaMisil();
+                }
                 break;
         }
         mX = x;
         mY = y;
         return true;
+    }
+
+    private void activaMisil() {
+        misil.setCordenadaXcentro(nave.getCordenadaXcentro() + (nave.getAncho() / 2) + 5 );
+        misil.setCordenadaYcentro(nave.getCordenadaYcentro() + 5);
+        misil.setAngulo(nave.getAngulo());
+        misil.setIncrementoX(Math.cos(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL);
+        misil.setIncrementoY(Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL);
+        tiempoMisil = (int) Math.min(this.getWidth() / Math.abs(misil.getIncrementoX()) , this.getHeight() / Math.abs(misil.getIncrementoY())) - 2;
+        misilActivo = true;
     }
 }
