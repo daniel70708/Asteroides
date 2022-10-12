@@ -7,7 +7,6 @@ public class Posicionamiento {
     private int altoPantalla, anchoPantalla;
     private int radioExterior, radioInterior;
     private int posicionXjoystick, posicionYjoystick;
-    private int posicionXdisparo, posicionYdisparo;
     private View view;
 
     public Posicionamiento(View view) {
@@ -22,9 +21,6 @@ public class Posicionamiento {
         posicionXjoystick = (anchoPantalla / 10) * 2;
         int x = (altoPantalla / 10) * 3;
         posicionYjoystick = altoPantalla - x;
-
-       /*/ posicionXdisparo = anchoPantalla - posicionXjoystick;
-        posicionYdisparo = posicionYjoystick;*/
 
     }
 
@@ -44,11 +40,4 @@ public class Posicionamiento {
         return posicionYjoystick;
     }
 
-    public int getPosicionXdisparo() {
-        return posicionXdisparo;
-    }
-
-    public int getPosicionYdisparo() {
-        return posicionYdisparo;
-    }
 }
