@@ -2,7 +2,7 @@ package com.example.asteroides;
 
 import android.view.View;
 
-public class Posicionamiento {
+public class PosicionamientoJoystick {
 
     private int altoPantalla, anchoPantalla;
     private int radioExterior, radioInterior;
@@ -11,7 +11,7 @@ public class Posicionamiento {
 
     /** Clase que determina la posicion (x,y) y el radio de ambos circulos que va a tener el joystick
      * de acuerdo al tamaño de pantalla del dispositivo */
-    public Posicionamiento(View view) {
+    public PosicionamientoJoystick(View view) {
         this.view = view;
         //Obtenemos el alto y el ancho de la pantalla en pixeles
         altoPantalla = view.getResources().getDisplayMetrics().heightPixels;
@@ -42,4 +42,11 @@ public class Posicionamiento {
         return posicionYjoystick;
     }
 
+    public int getAltoPantalla() {
+        return altoPantalla;
+    }
+
+    public int getAnchoPantalla() {
+        return anchoPantalla;
+    }
 }
