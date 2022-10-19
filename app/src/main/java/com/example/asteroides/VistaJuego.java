@@ -100,9 +100,13 @@ public class VistaJuego extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (Grafico asteroide:asteroides){
-            asteroide.dibujarGrafico(canvas);
+
+        for(int i = 0; i < asteroides.size(); i++){
+            if(asteroides.get(i) != null){
+                asteroides.get(i).dibujarGrafico(canvas);
+            }
         }
+
         nave.dibujarGrafico(canvas);
         joystick.draw(canvas);
         if (misilActivo){
@@ -153,12 +157,13 @@ public class VistaJuego extends View {
 
     private void destruyeAsteroide(int i) {
         synchronized (asteroides) {
-            Drawable imagen = null;
-            //¿el asteroide a eliminar es grande?
+
+            Drawable imagen = null; //Definimos un drawable en donde vamos a guardar el asteroide (versión mas paqueña) que utilizaremos como fragmento
+            //¿El asteroide a eliminar es grande?
             if (asteroides.get(i).getImagen().getConstantState() == drawableAsteroide[0].getConstantState() ||
                     asteroides.get(i).getImagen().getConstantState() == drawableAsteroide[2].getConstantState() ||
                     asteroides.get(i).getImagen().getConstantState() == drawableAsteroide[4].getConstantState()){
-
+                //Guardamos el drawable del asteroide versión pequeña
                 if(asteroides.get(i).getImagen().getConstantState() == drawableAsteroide[0].getConstantState() ){
                     imagen = drawableAsteroide[1];
                 }else if(asteroides.get(i).getImagen().getConstantState() == drawableAsteroide[2].getConstantState()){
@@ -167,29 +172,32 @@ public class VistaJuego extends View {
                     imagen = drawableAsteroide[5];
                 }
 
-                for (int n= 0; n < numeroFragmentos; n++){ //Entonces creo 3 asteroides que son los fragmentos del asteroide grande que acaba de ser destruido
+                for (int n= 0; n < numeroFragmentos; n++){ //Entonces creamos los fragmentos del asteroide grande que acaba de ser destruido
 
-                    Grafico asteroide = new Grafico(this, imagen);
-                    asteroide.setCordenadaXcentro(asteroides.get(i).getCordenadaXcentro());
+                    Grafico asteroide = new Grafico(this, imagen); //Creamos un nuevo grafico (asteroide pequeño)
+                    asteroide.setCordenadaXcentro(asteroides.get(i).getCordenadaXcentro()); //Le asignamos la posicion del centro (x,y) del asteroide grande
                     asteroide.setCordenadaYcentro(asteroides.get(i).getCordenadaYcentro());
                     asteroide.setIncrementoX(Math.random() * 7 - 2);
                     asteroide.setIncrementoY(Math.random() * 7 - 2);
                     asteroide.setAngulo((int) (Math.random() * 360));
                     asteroide.setVelocidadRotacion((int) (Math.random() * 8 - 4));
-                    asteroides.add(asteroide);
+                    if (n == 2){  //¿Es el tercer asteroide que vamos a crear?
+                        asteroides.remove(i); //Eliminamos el asteroide grande y creamos un asteroide pequeño en la posición anterior
+                        asteroides.add(i, asteroide);
+                    }else{
+                        asteroides.add(asteroide); //Colocamos el asteroide al final del vector
+                    }
+
                 }
-                asteroides.remove(i); //elimina el asteroide grande y se crea uno de manera aleatoria
-                crearAsteroide(i,true);
 
-            }else{
-                //Si el asteroide es pequeño eliminamos el asteroide
-                asteroides.remove(i);
-            }
-            misilActivo = false;
+            }else{ //Entonces el asteroide es pequeño
 
-            if(asteroides.size() < 3){
-                crearAsteroide(i,false);
+                asteroides.remove(i); //eliminamos el asteroide
+                if (i <= 4){ //¿El asteroide que eliminamos se encuentra dentro de las primeras 5 posiciones?
+                    crearAsteroide(i, false); //Creamos un nuevo asteroide y lo colocamos en la posición en la que acabamos de eliminar
+                }
             }
+            misilActivo = false; //Desactivamos el disparo ya que impacto en un asteroide
 
         }
     }
