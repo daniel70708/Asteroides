@@ -44,6 +44,13 @@
         <item name="background">@color/grisClaroPrimario</item>
     </style>
 
+    <!--Estilo para el texto de puntuaciones en la clase juego-->
+    <style name="tituloPuntuacion">
+        <item name="fontFamily">@font/vertor</item>
+        <item name="android:textColor">@color/textoSecundario</item>
+        <item name="android:textSize">8pt</item>
+    </style>
+
     <!--Temas para el titulo y botones del menú principal en orientación vertical-->
     <style name="tituloPrincipal.vertical">
         <item name="android:textSize">14pt</item>

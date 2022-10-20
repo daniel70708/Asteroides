@@ -7,6 +7,10 @@
     <string name="acercaDe">Acerca De</string>
     <string name="salir">Salir</string>
 
+    <!-- String para la clase juego-->
+    <string name="puntuacion">000000</string>
+    <string name="numeroDeJuegos">x3</string>
+
     <!--String de la descripcion del acerca de-->
     <string name="contenido_acercaDe">Esta aplicación esta inspirada en el juego de asteroides de atari, se desarrollo en Android Studio con el lenguaje Java.</string>
 </resources>
