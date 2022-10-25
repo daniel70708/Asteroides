@@ -6,11 +6,11 @@ public class PosicionamientoJoystick {
 
     private int altoPantalla, anchoPantalla;
     private int radioExterior, radioInterior;
-    private int posicionXjoystick, posicionYjoystick;
+    private int posicionXjoystick, posicionYjoystick, posicionXjoystickGiro;
     private View view;
 
-    /** Clase que determina la posicion (x,y) y el radio de ambos circulos que va a tener el joystick
-     * de acuerdo al tamaño de pantalla del dispositivo */
+    /**Constructor de la clase que determina la posicion (x,y) y el radio de ambos circulos que va a tener ambos
+     *  joystick (movimiento y giro) de acuerdo al tamaño de pantalla del dispositivo */
     public PosicionamientoJoystick(View view) {
         this.view = view;
         //Obtenemos el alto y el ancho de la pantalla en pixeles
@@ -23,6 +23,8 @@ public class PosicionamientoJoystick {
         posicionXjoystick = (anchoPantalla / 10) * 2; //Dividimos el ancho de la pantalla en 10 y tomamos dos partes
         //Dividimos el alto de la pantalla en 10 y tomamos 3 partes, para restarle al alto de la pantalla tres partes que calculamos
         posicionYjoystick = altoPantalla - ( (altoPantalla / 10) * 3);
+        //Dividimos el ancho de la pantalla en 10 y tomos 2 partes, para restarle al ancho de la pantalla dos partes que calculamos
+        posicionXjoystickGiro = anchoPantalla - ((anchoPantalla / 10) * 2);
     }
 
     /*Geter*/
@@ -40,6 +42,10 @@ public class PosicionamientoJoystick {
 
     public int getPosicionYjoystick() {
         return posicionYjoystick;
+    }
+
+    public int getPosicionXjoystickGiro() {
+        return posicionXjoystickGiro;
     }
 
     public int getAltoPantalla() {
