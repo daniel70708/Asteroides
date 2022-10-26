@@ -83,16 +83,19 @@ public class Asteroides {
 
     public Vector<Grafico> fragmentarAsteroide(Vector<Grafico> asteroides, int indice, int numeroFragmentos, int posicionAsteroide){
         int posicionXcentro,posicionYcentro;
+        double incrementoX, incrementoY;
         posicionXcentro = asteroides.get(indice).getCordenadaXcentro();
         posicionYcentro = asteroides.get(indice).getCordenadaYcentro();
+        incrementoX = asteroides.get(indice).getIncrementoX();
+        incrementoY = asteroides.get(indice).getIncrementoY();
 
         for (int i = 0; i < numeroFragmentos; i++){
 
             Grafico asteroide = new Grafico(view, drawableAsteroides[posicionAsteroide]); //Creamos un nuevo grafico (asteroide pequeño)
             asteroide.setCordenadaXcentro((int) posicionXcentro); //Le asignamos la posicion del centro (x,y) del asteroide grande
             asteroide.setCordenadaYcentro((int)  posicionYcentro);
-            asteroide.setIncrementoX(Math.random() * 7 - 2);
-            asteroide.setIncrementoY(Math.random() * 7 - 2);
+            asteroide.setIncrementoX(Math.random() * 2 + incrementoX);
+            asteroide.setIncrementoY(Math.random() * 2 + incrementoY);
             asteroide.setAngulo((int) (Math.random() * 360));
             asteroide.setVelocidadRotacion((int) (Math.random() * 8 - 4));
             if(i == 0){
