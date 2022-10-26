@@ -1,5 +1,6 @@
 package com.example.asteroides;
 
+import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -8,150 +9,117 @@ import java.util.Vector;
 
 public class Asteroides {
 
+    private Audio audio;
     private Context context;
     private View view;
-    private Drawable drawableAsteroide;
-    private Vector<Grafico> asteroides;
+    private Drawable drawableAsteroides[] = new Drawable[6];
     private int numeroAsteroides;
-    private int[] cordenadas;
+    private PosicionamientoJoystick posicionamiento;
+    private int anchoPantalla, altoPantalla;
 
     public Asteroides(View view, Context context, int numeroAsteroides) {
         this.view = view;
         this.context = context;
         this.numeroAsteroides = numeroAsteroides;
-        asteroides = new Vector<Grafico>();
-
-        llenarArregloAsteroides(view,numeroAsteroides);
-
+        audio = new Audio(context);
+        posicionamiento = new PosicionamientoJoystick(view);
+        this.anchoPantalla = posicionamiento.getAnchoPantalla();
+        this.altoPantalla = posicionamiento.getAltoPantalla();
+        llenarArregloDrawable();
     }
 
-    public void llenarArregloAsteroides(View view, int numeroAsteroides){
+    public Vector<Grafico> llenarArregloAsteroides(View view, Vector<Grafico> asteroides, int numeroAsteroides) {
+        int[] cordenadasXY= new int[2];
         //Creamos un ciclo en donde se crearán los 5 asteroides
-        for (int i = 0; i<numeroAsteroides; i++){
-            seleccionarDrawable();
-            Grafico asteroide = new Grafico(view, drawableAsteroide); //Creamos el gráfico de acuerdo con el drawable anterior
+        int numeroAleatorio;
+        for (int i = 0; i < numeroAsteroides; i++) {
+            numeroAleatorio = (int) (Math.random() * 5);
+            Grafico asteroide = new Grafico(view, drawableAsteroides[numeroAleatorio]); //Creamos el gráfico de acuerdo con el drawable anterior
+
+            llenarCordenadasXY(cordenadasXY);
+            asteroide.setCordenadaXcentro(cordenadasXY[0]);
+            asteroide.setCordenadaYcentro(cordenadasXY[1]);
+
             //Agreamos incremento de velocidad en (x,y), angulo y velocidad de rotacion de manera aleatoria
-            asteroide.setIncrementoX( (int) ((Math.random() * 5) - 1) );
-            asteroide.setIncrementoY((int) ((Math.random() * 5) - 1) );
-            asteroide.setAngulo((int) (Math.random() * 360) );
-            asteroide.setVelocidadRotacion((int) ((Math.random() * 8) -4) );
+            asteroide.setIncrementoX((int) ((Math.random() * 5) - 1));
+            asteroide.setIncrementoY((int) ((Math.random() * 5) - 1));
+            asteroide.setAngulo((int) (Math.random() * 360));
+            asteroide.setVelocidadRotacion((int) ((Math.random() * 8) - 4));
             asteroides.add(asteroide); //Agregamos el asteroide al vector asteroides
         }
-
+        return asteroides;
     }
 
-    public void seleccionarDrawable(){
-        //Generamos un número al azar para determinar que imagen del asteroide (de un total de 3 posibles)
-        switch ((int) Math.round(Math.random() * 2)){
+    public void llenarArregloDrawable() {
+        drawableAsteroides[0] = context.getResources().getDrawable(R.drawable.asteroide1);
+        drawableAsteroides[1] = context.getResources().getDrawable(R.drawable.asteroide1small);
+        drawableAsteroides[2] = context.getResources().getDrawable(R.drawable.asteroide2);
+        drawableAsteroides[3] = context.getResources().getDrawable(R.drawable.asteroide2small);
+        drawableAsteroides[4] = context.getResources().getDrawable(R.drawable.asteroide3);
+        drawableAsteroides[5] = context.getResources().getDrawable(R.drawable.asteroide3small);
+    }
+
+    public int[] llenarCordenadasXY(int[] cordenadaXY) {
+        switch ((int) ((Math.random() * 4) + 1)) {
             case 1:
-                //Generamos y redondeamos un número aleatorio y si es menor a 1 generamos el asteroide pequeño
-                if (Math.round(Math.random()) < 1){
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide1small);
-                }else{
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide1);
-                }
+                cordenadaXY[0] = -200; //-200
+                cordenadaXY[1] = (int) (Math.random() * altoPantalla);
                 break;
             case 2:
-                if (Math.round(Math.random()) < 1){
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide2small);
-                }else{
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide2);
-                }
+                cordenadaXY[0] = anchoPantalla + 200; //+200
+                cordenadaXY[1] = (int) (Math.random() * altoPantalla);
                 break;
-            default:
-                if (Math.round(Math.random()) < 1){
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide3small);
-                }else{
-                    drawableAsteroide = context.getResources().getDrawable(R.drawable.asteroide3);
-                }
+            case 3:
+                cordenadaXY[0] = (int) (Math.random() * anchoPantalla);
+                cordenadaXY[1] = -200;//-200
                 break;
-            }
-    }
-
-    public void llenarArreglo(int numeroAsteroides, int altoPantalla, int anchoPantalla){
-        int j = 0, centroX, centroY;
-        int numeroArreglo = numeroAsteroides * 2;
-        int[] casos = new int[5];
-        cordenadas = new int[numeroArreglo];
-
-        for (int i = 0; i < numeroArreglo; i++){
-            centroX = 0;
-            centroY = 0;
-
-            switch ((int) ((Math.random() * 4) + 1)){
-                case 1:
-                    centroX = 0; //-200
-                    centroY = (int) (Math.random() * altoPantalla);
-                    casos[j] = 1;
-                    break;
-
-                    case 2:
-                        centroX = anchoPantalla; //+200
-                        centroY = (int) (Math.random() * altoPantalla);
-                        casos[j] = 1;
-                    break;
-                case 3:
-                        centroX = (int) (Math.random() * anchoPantalla);
-                        centroY = 0;//-200
-                        casos[j] = 2;
-                    break;
-                case 4:
-                        centroX = (int) (Math.random() * anchoPantalla);
-                        centroY = altoPantalla;//+200
-                        casos[j] = 2;
-                    break;
-            }
-
-            cordenadas[i] = centroX;
-            i++;
-            cordenadas[i] = centroY;
-            j++;
+            case 4:
+                cordenadaXY[0] = (int) (Math.random() * anchoPantalla);
+                cordenadaXY[1]= altoPantalla + 200;//+200
+                break;
         }
-        verificaPosicion(casos);
-
+        return cordenadaXY;
     }
 
-    public void verificaPosicion(int[] casos){
-        int resta,cordenadaAnterior, cordenadaSiguente;
+    public Vector<Grafico> fragmentarAsteroide(Vector<Grafico> asteroides, int indice, int numeroFragmentos, int posicionAsteroide){
+        int posicionXcentro,posicionYcentro;
+        posicionXcentro = asteroides.get(indice).getCordenadaXcentro();
+        posicionYcentro = asteroides.get(indice).getCordenadaYcentro();
 
-        for(int i = 0; i < casos.length; i++){ //Recorre el primercaso
-            for(int j = i + 1; j < numeroAsteroides; j++){ //Compara un casos con todos los démas
-                    if (casos[i] == casos[j]){ //¿Mi caso es igual al siguiente?
-                        int numeroCaso = casos[i]; //Guardo el número de caso
-                        if (casos[i] == 1){ //¿Mi caso es el número 1?
-                            if(i == 0){ //¿Mi caso es la primera coordenada?
-                                cordenadaAnterior = cordenadas[i+1];
-                            }else { //Mi caso es la segunda o más
-                                cordenadaAnterior = cordenadas[j*2-1];
-                            }
-                            cordenadaSiguente = cordenadas[j*2+1];
-                            resta = cordenadaAnterior - cordenadaSiguente;
-                            if (Math.abs(resta) < 100){ //¿La cordenada es menor a 100?
-                                cordenadas[j*2-1] = cordenadas[j*2-1] + 100;//Sumo 100 a la cordenada para separarla
-                            }
-                        }else{ // Mi caso es el número 2
-                            if (i == 0){//¿Mi caso es la primera coordenada?
-                                cordenadaAnterior = cordenadas[0];
-                            }else { //Mi caso es la segunda o más
-                                cordenadaAnterior = cordenadas[i*2];
-                            }
-                            cordenadaSiguente = cordenadas[j*2];
-                            resta = cordenadaAnterior - cordenadaSiguente;
-                            if (Math.abs(resta) < 100){//¿La cordenada es menor a 100?
-                                cordenadas[i] = cordenadas[i] + 100;//Sumo 100 a la cordenada para separarla
-                            }
-                        }
-                    }
-                }
+        for (int i = 0; i < numeroFragmentos; i++){
+
+            Grafico asteroide = new Grafico(view, drawableAsteroides[posicionAsteroide]); //Creamos un nuevo grafico (asteroide pequeño)
+            asteroide.setCordenadaXcentro((int) posicionXcentro); //Le asignamos la posicion del centro (x,y) del asteroide grande
+            asteroide.setCordenadaYcentro((int)  posicionYcentro);
+            asteroide.setIncrementoX(Math.random() * 7 - 2);
+            asteroide.setIncrementoY(Math.random() * 7 - 2);
+            asteroide.setAngulo((int) (Math.random() * 360));
+            asteroide.setVelocidadRotacion((int) (Math.random() * 8 - 4));
+            if(i == 0){
+                asteroides.remove(indice); //Eliminamos el asteroide grande y creamos un asteroide pequeño en la posición anterior
+                audio.reproducirExplosionAsteroideGrande();
+                asteroides.add(indice, asteroide);
+            }else{
+                asteroides.add(asteroide);
+            }
         }
-
-    }
-
-    public int[] getCordenadas() {
-        return cordenadas;
-    }
-
-    public Vector<Grafico> getAsteroides() {
         return asteroides;
+    }
+
+    public Vector<Grafico> creasAsteroideEnPosicion(Vector<Grafico> asteroides, int indice){
+        Grafico asteroide = new Grafico(view, drawableAsteroides[(int) (Math.random() * 5) + 1] );
+        asteroide.setCordenadaXcentro((int) (Math.random() * posicionamiento.getAnchoPantalla()) );
+        asteroide.setCordenadaYcentro((int) (Math.random()) * posicionamiento.getAltoPantalla() );
+        asteroide.setIncrementoX(Math.random() * 7 - 2);
+        asteroide.setIncrementoY(Math.random() * 7 - 2);
+        asteroide.setAngulo((int) (Math.random() * 360));
+        asteroide.setVelocidadRotacion((int) (Math.random() * 8 - 4));
+        asteroides.add(indice, asteroide);
+        return asteroides;
+    }
+
+    /**Obtener arreglo de drawables*/
+    public Drawable[] getDrawableAsteroides() {
+        return drawableAsteroides;
     }
 }
