@@ -29,11 +29,11 @@ public class VistaJuego extends View {
     private int giroNave; //Determina el giro de la nave
     private static final int MAX_VELOCIDAD_NAVE = 20; //Velocidad máxima de la nave
     //Misil
-    private Grafico misil;
+    Drawable drawableMisil;
+    private Vector<Grafico> misiles;
+    private Vector<Integer> tiempoMisiles;
     private static int PASO_VELOCIDAD_MISIL = 12; //**
-    private boolean misilActivo = false; //Boleano que determina si el misil se encuentra en movimiento por la pantalla
     private boolean disparo = false; //Boleano que determina si el usario toco y solto la pantalla, significando un disparo
-    private int tiempoMisil; //Determina el tiempo que va a estar activo en el juego
     //Hilo de ejecución
     private HiloEjecucion hiloJuego = new HiloEjecucion(); //Hilo de ejecución que permite el movimiento de los drawables
     private static int PERIODO_PROCESO = 50; //Periodo en milisegundos en lo que vamos a esperar para aplicar movimiento a los asteroides
@@ -64,8 +64,9 @@ public class VistaJuego extends View {
         //Creación del grafico nave y misil
         Drawable  drawableNave = context.getResources().getDrawable(R.drawable.nave);
         nave = new Grafico(this,drawableNave);
-        Drawable drawableMisil = context.getResources().getDrawable(R.drawable.disparo);
-        misil = new Grafico(this, drawableMisil);
+        drawableMisil = context.getResources().getDrawable(R.drawable.disparo);
+        misiles = new Vector<Grafico>();
+        tiempoMisiles = new Vector<Integer>();
     }
 
     /** Método que llama cuando sabemos el tamaño de la pantalla ha sido calculado*/
@@ -98,8 +99,12 @@ public class VistaJuego extends View {
             }
         }
         //Si el disparo de la nave se activa, tenemos que dibujar el disparo
-        if (misilActivo){
-            misil.dibujarGrafico(canvas);
+        if (!misiles.isEmpty()) {
+            for (int i = 0; i < misiles.size(); i++) {
+                if (misiles.get(i) != null) {
+                    misiles.get(i).dibujarGrafico(canvas);
+                }
+            }
         }
     }
 
@@ -217,30 +222,36 @@ public class VistaJuego extends View {
             }
         }
         //Si el misil se encuentra en activo, aumentamos su posición en la pantalla (movimiento)
-        if (misilActivo){
-            misil.incrementaPosicion(retardo);
-            //Este misil tendrá un ciclo de vida que ira decreciendo de acuerdo al retardo
-            tiempoMisil -= retardo;
-            if(tiempoMisil < 0 ){ //Si se acabo el tiempo de vida del misil, este va a desaparecer
-                misilActivo = false;
-            }else { //Si esta activo verifica si hay alguna colisión con un asteroide
-                for (int i = 0; i < asteroides.size(); i++){
-                    if (misil.verificarColision(asteroides.elementAt(i))){
-                        destruyeAsteroide(i); //Llamamos a la función destruir asteroide y desaparecemos el misil
-                        misilActivo = false;
-                        break;
+        if(!misiles.isEmpty()){
+            for (int i = 0; i < misiles.size(); i++){
+                misiles.get(i).incrementaPosicion(retardo);
+                tiempoMisiles.set(i, tiempoMisiles.get(i) - (int) retardo);
+                //tiempoMisiles.insertElementAt(resta,i);
+                if (tiempoMisiles.get(i) < 0){
+                    misiles.remove(i);
+                    tiempoMisiles.remove(i);
+                }else{
+                    for (int j = 0; j < asteroides.size(); j++){
+                        if(misiles.get(i).verificarColision(asteroides.elementAt(j))){
+                            destruyeAsteroide(j); //Llamamos a la función destruir asteroide y desaparecemos el misil
+                            misiles.remove(i);
+                            tiempoMisiles.remove(i);
+                            break;
+                        }
                     }
                 }
+
             }
         }
+
         contador++; //Aumentamos el contador como retraso del movimiento de asteroides
     }
 
 
     private void reiniciarJuego() {
         //Si dejamos una misil activo lo eliminamos el juego
-        if(misilActivo){
-            misilActivo = false;
+        if(!misiles.isEmpty()){
+            misiles.clear();
         }
         //Limpiamos el vector de asteroides para reiniciar el juego
         asteroides.clear();
@@ -279,14 +290,20 @@ public class VistaJuego extends View {
     }
 
     private void activaMisil() {
-        misil.setCordenadaXcentro(nave.getCordenadaXcentro() + (nave.getAncho() / 2) + 5 );
-        misil.setCordenadaYcentro(nave.getCordenadaYcentro() + 5);
+        //Creamos el misil con las carácteristicas de cordenada (x,y) centro, ángulo e incremento en (x,y)
+        Grafico misil = new Grafico(this, drawableMisil);
+        misil.setCordenadaXcentro(nave.getCordenadaXcentro());
+        misil.setCordenadaYcentro(nave.getCordenadaYcentro());
         misil.setAngulo(nave.getAngulo());
         misil.setIncrementoX(Math.cos(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL);
         misil.setIncrementoY(Math.sin(Math.toRadians(misil.getAngulo())) * PASO_VELOCIDAD_MISIL);
-        tiempoMisil = (int) Math.min(this.getWidth() / Math.abs(misil.getIncrementoX()) , this.getHeight() / Math.abs(misil.getIncrementoY())) - 2;
-        misilActivo = true;
-        audio.reproducirDisparo();
+        misiles.add(misil); //Agrego el Grafico misil al vector
+
+        //Cálculo el tiempo de vida del misil
+        int tiempoMisil = (int) (Math.min(this.getWidth() / Math.abs(misil.getIncrementoX()) , this.getHeight() / Math.abs(misil.getIncrementoY())) - 2);
+        tiempoMisiles.add(tiempoMisil); //Agrego ese tiempo al vector tiempo misiles
+
+        audio.reproducirDisparo(); //Reproducimos el audio de disparo
     }
 
     class HiloEjecucion extends Thread{
