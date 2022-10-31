@@ -33,8 +33,8 @@ public class Juego extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        vistaJuego.audio.soundPool.autoPause();
         vistaJuego.getHiloJuego().pausarHilo();
+        vistaJuego.audio.soundPool.autoPause();
     }
 
     /**Cuando reanudamos la actividad, reproducimos los audios que quedaron en pausa y reanudamos el hilo
@@ -50,6 +50,7 @@ public class Juego extends AppCompatActivity {
         }*/
         vistaJuego.audio.soundPool.autoResume();
         vistaJuego.getHiloJuego().reanudarHilo();
+        vistaJuego.setRetrasoMovimiento(0);
     }
 
     /**Cuando la actividad va a ser destruida, pausamos todos los audios en reproducción, destruimos el soundoPool que

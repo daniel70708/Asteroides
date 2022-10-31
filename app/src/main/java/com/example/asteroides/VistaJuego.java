@@ -370,7 +370,8 @@ public class VistaJuego extends View {
         return hiloJuego;
     }
 
-    public void setContador(int contador) {
-        this.retrasoMovimiento = contador;
+    public void setRetrasoMovimiento(int retrasoMovimiento) {
+        this.retrasoMovimiento = retrasoMovimiento;
     }
+
 }
