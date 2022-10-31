@@ -134,10 +134,8 @@ public class Asteroides {
 
     /**Función que crea un asteroide, si este se encuentra en las primeras 5 posiciones del vector. Esto permite que sea
      * un ciclo infinito en donde siempre que eliminemos un asteroide cree uno nuevo*/
-    public Vector<Grafico> creasAsteroideEnPosicion(Vector<Grafico> asteroides, int indice){
+    public Vector<Grafico> creasAsteroideEnPosicion(Vector<Grafico> asteroides, int indice, double incrementoX, double incrementoY){
         int[] cordenadasXY= new int[2];
-        double incrementoX = asteroides.get(indice).getIncrementoX();
-        double incrementoY = asteroides.get(indice).getIncrementoY();
 
         //Creamos un asteroide de manera aleatoria pero se coloca en la posción en donde se elimino el asteroide anterior
         Grafico asteroide = new Grafico(view, drawableAsteroides[(int) (Math.random() * 5) + 1] );
