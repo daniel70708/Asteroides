@@ -22,9 +22,9 @@
     <!-- Tema para el splashscreen -->
     <style name="Theme.App.iniciando" parent="Theme.SplashScreen">
         <!-- Color de fondo -->
-        <item name="windowSplashScreenBackground">@color/grisClaroPrimario</item>
+        <item name="windowSplashScreenBackground">@color/textoPrimario</item>
         <!-- Icono de nuestro splash -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash</item>
         <!-- Tema que va a seguir cuando termine el splash screen -->
         <item name="postSplashScreenTheme">@style/Theme.Asteroides</item>
     </style>
