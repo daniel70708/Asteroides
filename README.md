@@ -5,9 +5,6 @@
   <a style="text-decoration:none" area-label="Min API: 21">
     <img src="https://img.shields.io/badge/minSdkVersion-21-green.svg">
   </a>
-  <a style="text-decoration:none" area-label="In construction">
-     <img alt="GitHub deployments" src="https://img.shields.io/github/deployments/daniel70708/Asteroides/In%20Construction">
-   </a>
 </p>
 
 ## About the project
