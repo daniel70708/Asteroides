@@ -1,3 +1,15 @@
+<p align="left">
+  <a style="text-decoration:none" area-label="Android">
+    <img src="https://img.shields.io/badge/Platform-Android-green.svg">
+  </a>
+  <a style="text-decoration:none" area-label="Min API: 21">
+    <img src="https://img.shields.io/badge/minSdkVersion-21-green.svg">
+  </a>
+  <a style="text-decoration:none" area-label="In construction">
+     <img alt="GitHub deployments" src="https://img.shields.io/github/deployments/daniel70708/Asteroides/In%20Construction">
+   </a>
+</p>
+
 ## About the project
 
 Classic arcade game, inspired Atari Asteroids of the year 1979. Where the goal is to destroy asteroids avoiding collision with any of these, at the moment that one of them is destroyed return with more speed.
