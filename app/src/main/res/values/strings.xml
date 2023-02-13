@@ -13,4 +13,11 @@
 
     <!--String de la descripcion del acerca de-->
     <string name="contenido_acercaDe">Esta aplicación esta inspirada en el juego de asteroides de atari, se desarrollo en Android Studio con el lenguaje Java.</string>
+    
+    <!--String para item list-->
+    <string name="puntuacion_list">15690</string>
+    <string name="fecha_list">10/05/23</string>
+    <string name="nombreJugador_list">Ángel Daniel</string>
+    <string name="descripcion_img_list">Imagen de un asteroide en la lista de puntuaciones</string>
+
 </resources>

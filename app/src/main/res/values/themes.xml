@@ -29,7 +29,6 @@
         <item name="postSplashScreenTheme">@style/Theme.Asteroides</item>
     </style>
 
-
     <!-- Estilos base para el titulo y los botones -->
     <style name="tituloPrincipal">
         <item name="fontFamily">@font/vertor</item>
@@ -44,10 +43,14 @@
         <item name="background">@color/grisClaroPrimario</item>
     </style>
 
-    <!--Estilo para el texto de puntuaciones en la clase juego-->
-    <style name="tituloPuntuacion">
+    <!--Estilo base para las puntuaciones -->
+    <style name="baseTituloPuntuacion">
         <item name="fontFamily">@font/vertor</item>
         <item name="android:textColor">@color/textoSecundario</item>
+    </style>
+
+    <!--Tamaño de letra para la puntuacion principal del juego-->
+    <style name="baseTituloPuntuacion.juego">
         <item name="android:textSize">8pt</item>
     </style>
 
@@ -67,6 +70,11 @@
 
     <style name="botonMenuPrincipal.horizontal">
         <item name="android:textSize">8pt</item>
+    </style>
+
+    <!-- Estilo para el texto del item_list-->
+    <style name="baseTituloPuntuacion.texto_itemList">
+        <item name="android:textSize">6pt</item>
     </style>
 
 </resources>

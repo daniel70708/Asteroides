@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/puntuacion"
-        style="@style/tituloPuntuacion"
+        style="@style/baseTituloPuntuacion.juego"
         android:text="@string/puntuacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
