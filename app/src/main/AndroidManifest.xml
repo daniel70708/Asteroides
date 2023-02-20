@@ -24,10 +24,6 @@
             android:exported="false"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.FullScreen" />
-        <activity
-            android:name=".AcercaDe"
-            android:exported="false"
-            android:theme="@android:style/Theme.Dialog"/>
     </application>
 
 </manifest>
