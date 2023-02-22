@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Asteroides" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Asteroides" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/grisPrimario</item>
         <item name="colorPrimaryVariant">@color/grisClaroPrimario</item>
@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <!--Estilo para la pantalla completa-->
+    <!--Tema para la pantalla completa-->
     <style name="Theme.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
     </style>
@@ -29,6 +29,47 @@
         <item name="postSplashScreenTheme">@style/Theme.Asteroides</item>
     </style>
 
+    <!-- Estilos compartidos por la aplicación -->
+    <style name="letraVector">
+        <item name="fontFamily">@font/vertor</item>
+        <item name="android:textColor">@color/textoSecundario</item>
+    </style>
+
+    <!-- Estilos para la orientacion vertical -->
+    <!-- Estilo para los titulos del menú principal -->
+    <style name="letraVector.tituloPrincipalGrande">
+        <item name="android:textSize">14pt</item>
+    </style>
+
+    <style name="letraVector.subTituloPrincipalSmall">
+        <item name="android:textSize">6pt</item>
+    </style>
+
+    <!--Estilo para los botones del menú principal-->
+    <style name="btnMenuPrincipal" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="fontFamily">@font/vertor</item>
+        <item name="android:textColor">@color/textoSecundario</item>
+        <item name="elevation">2dp</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="strokeColor">@color/textoSecundario</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconGravity">start</item>
+        <item name="iconTint">@color/textoSecundario</item>
+    </style>
+
+    <style name="btnMenuPrincipal.textoSmall">
+        <item name="android:textSize">6pt</item>
+    </style>
+
+    <style name="btnMenuPrincipal.textoMedium">
+        <item name="android:textSize">8pt</item>
+    </style>
+
+
+
+
+    <!-- Estilos para la orientacion horizontal -->
+
     <!-- Estilos base para el titulo y los botones -->
     <style name="tituloPrincipal">
         <item name="fontFamily">@font/vertor</item>
@@ -37,11 +78,6 @@
         <item name="background">@color/grisClaroPrimario</item>
     </style>
 
-    <style name="botonMenuPrincipal">
-        <item name="fontFamily">@font/vertor</item>
-        <item name="android:textColor">@color/textoPrimario</item>
-        <item name="background">@color/grisClaroPrimario</item>
-    </style>
 
     <!--Estilo base para las puntuaciones -->
     <style name="baseTituloPuntuacion">
@@ -54,23 +90,10 @@
         <item name="android:textSize">8pt</item>
     </style>
 
-    <!--Temas para el titulo y botones del menú principal en orientación vertical-->
     <style name="tituloPrincipal.vertical">
         <item name="android:textSize">14pt</item>
     </style>
 
-    <style name="botonMenuPrincipal.vertical">
-        <item name="android:textSize">7pt</item>
-    </style>
-
-    <!-- Temas para el titulo y botones del menú principal en orientación horizontal-->
-    <style name="tituloPrincipal.horizontal">
-        <item name="android:textSize">16pt</item>
-    </style>
-
-    <style name="botonMenuPrincipal.horizontal">
-        <item name="android:textSize">8pt</item>
-    </style>
 
     <!-- Estilo para el texto del item_list-->
     <style name="baseTituloPuntuacion.texto_itemList">

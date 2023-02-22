@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">Asteroides</string>
 
     <!--Strings para el menú principal del juego-->
+    <string name="app_name">Asteroides</string>
     <string name="jugar">Jugar</string>
     <string name="configurar">Configurar</string>
     <string name="acercaDe">Acerca De</string>
     <string name="salir">Salir</string>
+    <string name="puntuaciones">Puntuaciones</string>
+    <string name="atari">Atari 1979</string>
 
     <!-- String para la clase juego-->
     <string name="puntuacion">000000</string>
@@ -13,11 +15,11 @@
 
     <!--String de la descripcion del acerca de-->
     <string name="contenido_acercaDe">Esta aplicación esta inspirada en el juego de asteroides de atari, se desarrollo en Android Studio con el lenguaje Java.</string>
-    
+
     <!--String para item list-->
     <string name="puntuacion_list">15690</string>
     <string name="fecha_list">10/05/23</string>
-    <string name="nombreJugador_list">Ángel Daniel</string>
+    <string name="nombreJugador_list">Angel Daniel</string>
     <string name="descripcion_img_list">Imagen de un asteroide en la lista de puntuaciones</string>
 
 </resources>
