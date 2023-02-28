@@ -12,7 +12,7 @@ public class PuntuacionEntity {
     public int id_puntuacion;
     public String nombre;
     public int puntaje;
-    public Date fecha;
+    public String fecha;
     @Ignore
     public int imagen;
 }

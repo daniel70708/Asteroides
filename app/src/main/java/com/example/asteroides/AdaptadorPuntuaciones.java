@@ -13,10 +13,10 @@ import java.util.List;
 
 
 public class AdaptadorPuntuaciones extends RecyclerView.Adapter<AdaptadorPuntuaciones.ViewHolder> {
-    protected List<Puntuacion> listaPuntuaciones; //Lista con la que se va a llenar el recyclerview
+    protected List<PuntuacionEntity> listaPuntuaciones; //Lista con la que se va a llenar el recyclerview
 
     /* Constructor*/
-    public AdaptadorPuntuaciones(List<Puntuacion> listaPuntuaciones) {
+    public AdaptadorPuntuaciones(List<PuntuacionEntity> listaPuntuaciones) {
         this.listaPuntuaciones = listaPuntuaciones;
     }
 
@@ -48,9 +48,9 @@ public class AdaptadorPuntuaciones extends RecyclerView.Adapter<AdaptadorPuntuac
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //Guardamos un elemento de la clase Puntuacion en turno para personalizar con mayor facilidad los elementos restantes
-        Puntuacion puntaje = listaPuntuaciones.get(position);
+        PuntuacionEntity puntaje = listaPuntuaciones.get(position);
         //Personalizamos todos los disños con lo que contiene la lista de acuerdo a la posición
-        holder.puntuacion.setText(puntaje.nombre);
+        holder.puntuacion.setText(puntaje.puntaje);
         holder.fecha.setText((CharSequence) puntaje.fecha);
         holder.nombre.setText(puntaje.nombre);
         holder.imagenAsteroide.setImageResource(puntaje.imagen);
