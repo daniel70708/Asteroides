@@ -36,6 +36,7 @@
     </style>
 
     <!-- Estilos para la orientacion vertical -->
+
     <!-- Estilo para los titulos del menú principal -->
     <style name="letraVector.tituloPrincipalGrande">
         <item name="android:textSize">14pt</item>
@@ -64,6 +65,18 @@
     <style name="btnMenuPrincipal.textoMedium">
         <item name="android:textSize">8pt</item>
     </style>
+
+
+    <!-- Estilos para Dialog acerca de -->
+    <style name="letraVector.tituloDialog">
+        <item name="android:textSize">12pt</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="letraVector.contenidoDialog">
+        <item name="android:textSize">7pt</item>
+    </style>
+
 
 
 

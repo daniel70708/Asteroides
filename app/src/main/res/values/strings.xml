@@ -14,12 +14,16 @@
     <string name="numeroDeJuegos">x3</string>
 
     <!--String de la descripcion del acerca de-->
-    <string name="contenido_acercaDe">Esta aplicación esta inspirada en el juego de asteroides de atari, se desarrollo en Android Studio con el lenguaje Java.</string>
+    <string name="contenido_acercaDe">Esta aplicación esta inspirada en el juego de asteroides de atari del año 1979. Cuenta con 3 diferentes tipos de graficos, almacenamiento de las mejores puntuaciones de manera local y se desarrollo en Android Studio con el lenguaje Java.</string>
+    <string name="contenido2_acercaDe">Cuenta con 3 diferentes tipos de graficos, almacenamiento de las mejores puntuaciones de manera local y se desarrollo en Android Studio con el lenguaje Java.</string>
+    <string name="repoGithub_acercaDe">Para mas informacion puedes acceder al proyecto en github</string>
 
     <!--String para item list-->
     <string name="puntuacion_list">15690</string>
     <string name="fecha_list">10/05/23</string>
     <string name="nombreJugador_list">Angel Daniel</string>
     <string name="descripcion_img_list">Imagen de un asteroide en la lista de puntuaciones</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
