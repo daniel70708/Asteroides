@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -53,31 +54,34 @@ public class MenuPrincipalFragment extends Fragment {
         binding.btnPuntuaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
+
                 Fragment newFragment = new PuntuacionesFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                transaction.replace(R.id.container_main, newFragment);
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.contenedorFragment, newFragment);
                 transaction.addToBackStack(null);
-
-                // Commit the transaction
-                transaction.commit();*/
+                transaction.commit();
             }
         });
 
         binding.btnAcercaDe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
+                DialogFragment dialogFragment = new AcercaDeDialogFragment();
+                dialogFragment.show(getParentFragmentManager(), "acercaDe");*/
 
+                Fragment newFragment = new AcercaDeFragment();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.contenedorFragment, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
         binding.btnSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                getActivity().finish();
             }
         });
     }
@@ -87,4 +91,5 @@ public class MenuPrincipalFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

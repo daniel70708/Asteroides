@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.asteroides.databinding.FragmentPuntuacionesBinding;
+
 public class PuntuacionesFragment extends Fragment {
-    Button btnJugar, btnSalir, btnConfigurar, btnAcercaDe;
+    private FragmentPuntuacionesBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,9 @@ public class PuntuacionesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_puntuaciones, container, false);
+        binding = FragmentPuntuacionesBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
@@ -35,5 +39,6 @@ public class PuntuacionesFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        binding = null;
     }
 }
